@@ -79,15 +79,7 @@ app.get('/', ifNotLoggedin, (req,res,next) => {
     
 });
 
-app.get('/', ifNotLoggedin, (req,res,next) => {
-    dbconnection.execute("SELECT `img` FROM `users` WHERE `id`=?",[req.session.userImg])
-    .then(([rows]) => {
-        res.render('home',{
-            img:rows[0].img
-        });
-    });
-    
-});
+
 
 app.get('/index', ifNotLoggedin, (req,res,next) => {
     dbconnection.execute("SELECT `name` FROM `users` WHERE `id`=?",[req.session.userID])
@@ -428,6 +420,70 @@ app.get('/logout',(req,res)=>{
 });
 
 
+//get ImgUsers
+app.get('/getImg',(req, res) => {
+    try{
+        connection.query('SELECT `img` FROM `users` WHERE `img`=?', [req.session.userImg],
+        (err, data, fil) => {
+            if(data) {
+                return res.status(200).json({
+                    resCode: 200,
+                    ResMessag: 'success',
+                    Result: data
+                })
+            }
+            else {
+                    console.log('ERR 0! : not found data')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: not found data',
+                        Log: 1
+                    })
+            }
+        })
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+    }
+})
+
+//get NameUsers
+app.get('/getname',(req, res) => {
+    try{
+        connection.query('SELECT `name` FROM `users` WHERE `id`=?', [req.session.userId],
+        (err, data, fil) => {
+            if(data) {
+                return res.status(200).json({
+                    resCode: 200,
+                    ResMessag: 'success',
+                    Result: data
+                    
+                })
+            }
+            else {
+                    console.log('ERR 0! : not found data')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: not found data',
+                        Log: 1
+                    })
+            }
+        })
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+    }
+})
 
 /////////////////
 
