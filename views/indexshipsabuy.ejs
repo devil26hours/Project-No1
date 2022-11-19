@@ -303,6 +303,7 @@
         var buydata;
         var selldata;
         var vinildata;
+        var dataImg;
         let res = {};
         let res_2 ={};
         let res_3 ={};
@@ -324,12 +325,12 @@
                       
                       console.log('Render Get Product !', response)
                       if(response.resCode == 200) {
-                          data = response.Result;
-                          if(data.length > 0) {
+                          dataImg = response.Result;
+                          if(dataImg.length > 0) {
                             var html = '';
-                            for (let i = 0; i < data.length; i++) {
+                            for (let i = 0; i < dataImg.length; i++) {
                               html += `
-                              <img class="image" src="${data[i].img}" alt="">
+                              <img class="image" src="${dataImg[i].img}" alt="">
                               
                               `;
                             }   

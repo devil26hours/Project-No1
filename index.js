@@ -255,10 +255,10 @@ app.get('/HistorySellPageBitkub', ifNotLoggedin, (req,res,next) => {
     });
     
 });
-app.get('/HistorySell', ifNotLoggedin, (req,res,next) => {
+app.get('/HistorySellPage', ifNotLoggedin, (req,res,next) => {
     dbconnection.execute("SELECT `name` FROM `users` WHERE `id`=?",[req.session.userID])
     .then(([rows]) => {
-        res.render('HistorySell',{
+        res.render('HistorySellPage',{
             name:rows[0].name
         });
     });
@@ -1426,7 +1426,7 @@ app.get('/api/getset3history',(req, res) => {
 })
 
 //getsellset1 historyproduct shipsabuy
-app.get('/api/getset1history',(req, res) => {
+app.get('/api/getset1historyshipsabuy',(req, res) => {
     try{
         connection.query('select * from tbl_set1_history_shipsabuy', [],
         (err, data, fil) => {
@@ -1818,17 +1818,19 @@ app.post('/api/insertstock', (req, res)=>{
     var stockname = _.get(req, ['body', 'stockname']);
     var quantity = _.get(req, ['body', 'quantity']);
     var invoid_no = _.get(req, ['body', 'invoid_no']);
+    var acc = [req.session.user_name];
 
 
     console.log('Date', Date)
     console.log('stockname', stockname)
     console.log('quantity', quantity)
     console.log('invoid_no', invoid_no)
+    console.log('acc', acc)
 
     try{
         if( Date &&  stockname && quantity ) {
-            connection.query('insert into tbl_buy_history (Date, stockname, quantity, invoid_no) values (?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no
+            connection.query('insert into tbl_buy_history (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no,acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -1873,6 +1875,7 @@ app.post('/api/insertstockshipsabuy', (req, res)=>{
     var stockname = _.get(req, ['body', 'stockname']);
     var quantity = _.get(req, ['body', 'quantity']);
     var invoid_no = _.get(req, ['body', 'invoid_no']);
+    var acc = [req.session.user_name];
 
 
     console.log('Date', Date)
@@ -1882,8 +1885,8 @@ app.post('/api/insertstockshipsabuy', (req, res)=>{
 
     try{
         if( Date &&  stockname && quantity ) {
-            connection.query('insert into tbl_buy_history_shipsabuy (Date, stockname, quantity, invoid_no) values (?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no
+            connection.query('insert into tbl_buy_history_shipsabuy (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no,acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -1928,7 +1931,7 @@ app.post('/api/insertstockflash', (req, res)=>{
     var stockname = _.get(req, ['body', 'stockname']);
     var quantity = _.get(req, ['body', 'quantity']);
     var invoid_no = _.get(req, ['body', 'invoid_no']);
-
+    var acc = [req.session.user_name];
 
     console.log('Date', Date)
     console.log('stockname', stockname)
@@ -1937,8 +1940,8 @@ app.post('/api/insertstockflash', (req, res)=>{
 
     try{
         if( Date &&  stockname && quantity ) {
-            connection.query('insert into tbl_buy_history_flash (Date, stockname, quantity, invoid_no) values (?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no
+            connection.query('insert into tbl_buy_history_flash (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no,acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -1983,6 +1986,7 @@ app.post('/api/insertstockbitkub', (req, res)=>{
     var stockname = _.get(req, ['body', 'stockname']);
     var quantity = _.get(req, ['body', 'quantity']);
     var invoid_no = _.get(req, ['body', 'invoid_no']);
+    var acc = [req.session.user_name];
 
 
     console.log('Date', Date)
@@ -1992,8 +1996,8 @@ app.post('/api/insertstockbitkub', (req, res)=>{
 
     try{
         if( Date &&  stockname && quantity ) {
-            connection.query('insert into tbl_buy_history_bitkub (Date, stockname, quantity, invoid_no) values (?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no
+            connection.query('insert into tbl_buy_history_bitkub (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no, acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -2039,7 +2043,7 @@ app.post('/api/insertsellstock', (req, res)=>{
     var stockname = _.get(req, ['body', 'stockname']);
     var quantity = _.get(req, ['body', 'quantity']);
     var invoid_no = _.get(req, ['body', 'invoid_no']);
-
+    var acc = [req.session.user_name];
 
     console.log('Date', Date)
     console.log('stockname', stockname)
@@ -2048,8 +2052,8 @@ app.post('/api/insertsellstock', (req, res)=>{
 
     try{
         if( Date &&  stockname && quantity ) {
-            connection.query('insert into tbl_sell_history (Date, stockname, quantity, invoid_no) values (?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no
+            connection.query('insert into tbl_sell_history (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no,acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -2094,7 +2098,7 @@ app.post('/api/insertsellstockshipsabuy', (req, res)=>{
     var stockname = _.get(req, ['body', 'stockname']);
     var quantity = _.get(req, ['body', 'quantity']);
     var invoid_no = _.get(req, ['body', 'invoid_no']);
-
+    var acc = [req.session.user_name];
 
     console.log('Date', Date)
     console.log('stockname', stockname)
@@ -2103,8 +2107,8 @@ app.post('/api/insertsellstockshipsabuy', (req, res)=>{
 
     try{
         if( Date &&  stockname && quantity ) {
-            connection.query('insert into tbl_sell_history_shipsabuy (Date, stockname, quantity, invoid_no) values (?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no
+            connection.query('insert into tbl_sell_history_shipsabuy (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no, acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -2149,7 +2153,7 @@ app.post('/api/insertsellstockflash', (req, res)=>{
     var stockname = _.get(req, ['body', 'stockname']);
     var quantity = _.get(req, ['body', 'quantity']);
     var invoid_no = _.get(req, ['body', 'invoid_no']);
-
+    var acc = [req.session.user_name];
 
     console.log('Date', Date)
     console.log('stockname', stockname)
@@ -2158,8 +2162,8 @@ app.post('/api/insertsellstockflash', (req, res)=>{
 
     try{
         if( Date &&  stockname && quantity ) {
-            connection.query('insert into tbl_sell_history_flash (Date, stockname, quantity, invoid_no) values (?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no
+            connection.query('insert into tbl_sell_history_flash (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no, acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -2210,11 +2214,12 @@ app.post('/api/insertsellstockbitkub', (req, res)=>{
     console.log('stockname', stockname)
     console.log('quantity', quantity)
     console.log('invoid_no', invoid_no)
+    var acc = [req.session.user_name];
 
     try{
         if( Date &&  stockname && quantity ) {
-            connection.query('insert into tbl_sell_history_bitkub (Date, stockname, quantity, invoid_no) values (?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no
+            connection.query('insert into tbl_sell_history_bitkub (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no,acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -2260,7 +2265,7 @@ app.post('/api/insertset1stock', (req, res)=>{
     var stockname = _.get(req, ['body', 'stockname']);
     var quantity = _.get(req, ['body', 'quantity']);
     var invoid_no = _.get(req, ['body', 'invoid_no']);
-
+    var acc = [req.session.user_name];
 
     console.log('Date', Date)
     console.log('stockname', stockname)
@@ -2269,8 +2274,8 @@ app.post('/api/insertset1stock', (req, res)=>{
 
     try{
         if( Date &&  stockname && quantity ) {
-            connection.query('insert into tbl_set1_history (Date, stockname, quantity, invoid_no) values (?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no
+            connection.query('insert into tbl_set1_history (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no, acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -2316,7 +2321,7 @@ app.post('/api/insertset2stock', (req, res)=>{
     var stockname = _.get(req, ['body', 'stockname']);
     var quantity = _.get(req, ['body', 'quantity']);
     var invoid_no = _.get(req, ['body', 'invoid_no']);
-
+    var acc = [req.session.user_name];
 
     console.log('Date', Date)
     console.log('stockname', stockname)
@@ -2325,8 +2330,8 @@ app.post('/api/insertset2stock', (req, res)=>{
 
     try{
         if( Date &&  stockname && quantity ) {
-            connection.query('insert into tbl_set2_history (Date, stockname, quantity, invoid_no) values (?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no
+            connection.query('insert into tbl_set2_history (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no, acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -2373,7 +2378,7 @@ app.post('/api/insertset3stock', (req, res)=>{
     var stockname = _.get(req, ['body', 'stockname']);
     var quantity = _.get(req, ['body', 'quantity']);
     var invoid_no = _.get(req, ['body', 'invoid_no']);
-
+    var acc = [req.session.user_name];
 
     console.log('Date', Date)
     console.log('stockname', stockname)
@@ -2382,8 +2387,8 @@ app.post('/api/insertset3stock', (req, res)=>{
 
     try{
         if( Date &&  stockname && quantity ) {
-            connection.query('insert into tbl_set3_history (Date, stockname, quantity, invoid_no) values (?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no
+            connection.query('insert into tbl_set3_history (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no, acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -2428,7 +2433,7 @@ app.post('/api/insertset1stockshipsabuy', (req, res)=>{
     var stockname = _.get(req, ['body', 'stockname']);
     var quantity = _.get(req, ['body', 'quantity']);
     var invoid_no = _.get(req, ['body', 'invoid_no']);
-
+    var acc = [req.session.user_name];
 
     console.log('Date', Date)
     console.log('stockname', stockname)
@@ -2437,8 +2442,8 @@ app.post('/api/insertset1stockshipsabuy', (req, res)=>{
 
     try{
         if( Date &&  stockname && quantity ) {
-            connection.query('insert into tbl_set1_history_shipsabuy (Date, stockname, quantity, invoid_no) values (?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no
+            connection.query('insert into tbl_set1_history_shipsabuy (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no, acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -2484,7 +2489,7 @@ app.post('/api/insertset2stockshipsabuy', (req, res)=>{
     var stockname = _.get(req, ['body', 'stockname']);
     var quantity = _.get(req, ['body', 'quantity']);
     var invoid_no = _.get(req, ['body', 'invoid_no']);
-
+    var acc = [req.session.user_name];
 
     console.log('Date', Date)
     console.log('stockname', stockname)
@@ -2493,8 +2498,8 @@ app.post('/api/insertset2stockshipsabuy', (req, res)=>{
 
     try{
         if( Date &&  stockname && quantity ) {
-            connection.query('insert into tbl_set2_history_shipsabuy (Date, stockname, quantity, invoid_no) values (?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no
+            connection.query('insert into tbl_set2_history_shipsabuy (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no, acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -2541,7 +2546,7 @@ app.post('/api/insertset3stockshipsabuy', (req, res)=>{
     var stockname = _.get(req, ['body', 'stockname']);
     var quantity = _.get(req, ['body', 'quantity']);
     var invoid_no = _.get(req, ['body', 'invoid_no']);
-
+    var acc = [req.session.user_name];
 
     console.log('Date', Date)
     console.log('stockname', stockname)
@@ -2550,8 +2555,8 @@ app.post('/api/insertset3stockshipsabuy', (req, res)=>{
 
     try{
         if( Date &&  stockname && quantity ) {
-            connection.query('insert into tbl_set3_history_shipsabuy (Date, stockname, quantity, invoid_no) values (?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no
+            connection.query('insert into tbl_set3_history_shipsabuy (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no, acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -2596,7 +2601,7 @@ app.post('/api/insertset4stockshipsabuy', (req, res)=>{
     var stockname = _.get(req, ['body', 'stockname']);
     var quantity = _.get(req, ['body', 'quantity']);
     var invoid_no = _.get(req, ['body', 'invoid_no']);
-
+    var acc = [req.session.user_name];
 
     console.log('Date', Date)
     console.log('stockname', stockname)
@@ -2605,8 +2610,8 @@ app.post('/api/insertset4stockshipsabuy', (req, res)=>{
 
     try{
         if( Date &&  stockname && quantity ) {
-            connection.query('insert into tbl_set4_history_shipsabuy (Date, stockname, quantity, invoid_no) values (?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no
+            connection.query('insert into tbl_set4_history_shipsabuy (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no, acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({

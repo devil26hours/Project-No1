@@ -21,7 +21,8 @@
         <div class="nav-container">
             <a href="indexshipsabuy">
                 <img src="./imgs/LOGOSHIPSABUY.png" class="logonav">
-            </a>  
+            </a> 
+            <H1 class="title-stockmain"><sub>Buy</sub></H1> 
         </div>
     </nav>
     
@@ -33,6 +34,7 @@
                     <th>Name</th>
                     <th>Total</th>
                     <th>info</th>
+                    <th>User</th>
                 </tr>
             </thead>
             <tbody>
@@ -66,7 +68,8 @@
                 { data: 'Date' },
                 { data: 'stockname' },
                 { data: 'quantity' },
-                { data: 'invoid_no' }
+                { data: 'invoid_no' },
+                { data: 'acc' }
             ]
         } );
         $.ajax({
