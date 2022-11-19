@@ -19,23 +19,23 @@
 <body>
 
     <nav>
-      <div class="nav-container">
-        <a href="index">
-            <img src="./imgs/shippoplogo.png" class="logonav">
-        </a>  
-        <H1 class="title-stockmain"><sub>STOCK</sub></H1> 
-        <div class="acc" id="Avatar">
-      
-        </div>
-        <div class="btn-group">
-          <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-      </button>
-      <ul class="dropdown-menu text-center" style="background: rgb(255, 255, 255); border: 1.5px solid black; cursor: pointer;">
-        <li><a  class="dropdown-item" style="font-size:20px" ><%= name %> </a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a href="logout" style="color: red;">Logout</a></li>
-          </ul>
-        </div>
+            <div class="nav-container">
+                <a href="index">
+                    <img src="./imgs/shippoplogo.png" class="logonav">
+                </a>  
+                <H1 class="title-stockmain"><sub>STOCK</sub></H1> 
+                <div class="acc" id="Avatar">
+              
+                </div>
+                <div class="btn-group">
+                  <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              </button>
+              <ul class="dropdown-menu text-center" style="background: rgb(255, 255, 255); border: 1.5px solid black; cursor: pointer;">
+                <li><a  class="dropdown-item" style="font-size:20px" ><%= name %> </a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a href="logout" style="color: red;">Logout</a></li>
+                  </ul>
+                </div>
 
             </div>
     </nav>
@@ -45,7 +45,7 @@
        
 
         <div class="sidebar">
-          <button class="menu-bar5" onclick="document.location='home'"><i class="fa-solid fa-backward"></i> HOMEPAGE </button> 
+          <button class="menu-bar5" onclick="document.location='/'"><i class="fa-solid fa-backward"></i> HOMEPAGE </button> 
           <h4>MENU</h4>
           <button onclick="buyproduct()"  class="menu-bar3"  >
             <i class="fa-solid fa-cart-shopping"></i> BUY
@@ -262,7 +262,6 @@
     <script>
       
         var data;
-        var dataImg;
         var productid = 0;
         var buydata;
         var selldata;
@@ -274,11 +273,13 @@
         let ves_2 = {};
         let ves_3 = {};
         
+        
+        
         $(document).ready(() =>{
-          render();
-          renderImg();
+          render(); 
+          renderImg()      
         })
-        //get img
+         //get img
           function renderImg() {
             $.ajax({
                   method: 'get',
@@ -287,12 +288,12 @@
                       
                       console.log('Render Get Product !', response)
                       if(response.resCode == 200) {
-                        dataImg = response.Result;
-                          if(dataImg.length > 0) {
+                          data = response.Result;
+                          if(data.length > 0) {
                             var html = '';
-                            for (let i = 0; i < dataImg.length; i++) {
+                            for (let i = 0; i < data.length; i++) {
                               html += `
-                              <img class="image" src="${dataImg[i].img}" alt="">
+                              <img class="image" src="${data[i].img}" alt="">
                               
                               `;
                             }   
@@ -304,6 +305,7 @@
                   }
               }) 
           }
+
         //get
         function render() {
           $.ajax({
@@ -336,8 +338,7 @@
                               </tr>
                             `;
                           }   
-                          $("#tbody").html(html)    
-                                                                
+                          $("#tbody").html(html)                                          
                       }
                     }
                 }, error:(err) => {
@@ -586,7 +587,7 @@
                }).then((result) => {
                  if (result.isConfirmed) {
                   for (let i = 0; i < data.length; i++) {
-                      if($(`#totalClicks${i}`).val() !=0 ){ 
+                      if($(`#totalClicks${i}`).val() >=0 ){ 
                         console.log (parseInt(data[i].quantity) + parseInt($(`#totalClicks${i}`).val()))
                         $.ajax({
                           method: 'put',
@@ -1000,23 +1001,6 @@
           }
         }      
 
-        function totalClicks2(click, totalid) {
-          const totalClicks2 = document.getElementById("totalClicks2"+totalid);
-          const sumvalue = parseInt(totalClicks2.value) +click;
-          console.log(sumvalue + click);
-          totalClicks2.value = sumvalue;
-          console.log (totalClicks2);
-
-          // avoid
-          if(totalid < 0) {
-            totalClicks2.value = 0;
-          }
-          //Reset valute
-          if(click === 0){
-            totalClicks2.value = 0;
-          }
-        }      
-        
         function ClearFields(){
           document.getElementById("invoid").value = "";
         }

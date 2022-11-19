@@ -379,8 +379,10 @@ app.post('/', ifLoggedin, [
                 if(compare_result === true){
                     req.session.isLoggedIn = true;
                     req.session.userID = rows[0].id;
+                    req.session.user_name = rows[0].name;
                     req.session.userImg = rows[0].img;
                     console.log(req.session.userID)
+                    console.log(req.session.user_name)
                     console.log(req.session.userImg)
 
                     res.redirect('/');
@@ -685,15 +687,17 @@ app.post('/api/createrequisition', (req, res)=>{
     var productnames = _.get(req, ['body', 'productnames']);
     var total = _.get(req, ['body', 'total']);
     var detail = _.get(req, ['body', 'detail']);
+    var acc = [req.session.user_name];
 
     console.log('productnames', productnames)
     console.log('total', total)
     console.log('detail', detail)
+    console.log('acc', acc)
 
     try {
         if(productnames && total && detail){
-            connection.query('insert into requisition (productnames, total, detail) values (?,?,?)',
-            [ productnames, total,detail],(err, resp, field)=>{
+            connection.query('insert into requisition (productnames, total, detail, acc) values (?,?,?,?)',
+            [ productnames,total,detail,acc],(err, resp, field)=>{
                 if(resp) {
                     return res.status(200).json({
                         resCode: 200,
@@ -2694,7 +2698,7 @@ app.delete('/api/deletestockshipsabuy',(req, res) => {
     var id = _.get(req, ['body', 'id']);
     try {
         if(id) {
-            db.query ('delete from tbl_stock_shipsabuy where id = ?',[
+            connection.query ('delete from tbl_stock_shipsabuy where id = ?',[
                 parseInt(id)
             ],(err, resp, fil)=>{
                if(resp) {
@@ -2737,7 +2741,7 @@ app.delete('/api/deletestockflash',(req, res) => {
     var id = _.get(req, ['body', 'id']);
     try {
         if(id) {
-            db.query ('delete from tbl_stock_flash where id = ?',[
+            connection.query ('delete from tbl_stock_flash where id = ?',[
                 parseInt(id)
             ],(err, resp, fil)=>{
                if(resp) {
@@ -2780,7 +2784,7 @@ app.delete('/api/deletestockbitkub',(req, res) => {
     var id = _.get(req, ['body', 'id']);
     try {
         if(id) {
-            db.query ('delete from tbl_stock_bitkub where id = ?',[
+            connection.query ('delete from tbl_stock_bitkub where id = ?',[
                 parseInt(id)
             ],(err, resp, fil)=>{
                if(resp) {
@@ -2824,7 +2828,7 @@ app.delete('/api/deletestockrequisition',(req, res) => {
     var id = _.get(req, ['body', 'id']);
     try {
         if(id) {
-            db.query ('delete from requisition where id = ?',[
+            connection.query ('delete from requisition where id = ?',[
                 parseInt(id)
             ],(err, resp, fil)=>{
                if(resp) {

@@ -24,17 +24,16 @@
 
                 </a>  
                 <H1 class="title-stockmain"><sub>REQUISITION STOCK</sub></H1> 
-                <div class="acc">
-                  <img id="avatar" src="./imgs/user-anonymous.png" class="logonav2">
+                <div class="acc" id="Avatar">
+              
                 </div>
                 <div class="btn-group">
                   <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    
                   </button>
-                  <ul class="dropdown-menu">
-                    <li><a id="fname" class="dropdown-item"><%= name %></a></li>
+                  <ul class="dropdown-menu text-center" style="background: rgb(255, 255, 255); border: 1.5px solid black; cursor: pointer;">
+                    <li><a id="acc" class="dropdown-item" style="font-size:20px" ><%= name %></a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="logout">Logout</a></li>
+                    <li><a href="logout" style="color: red;">Logout</a></li>
                   </ul>
                 </div>
 
@@ -112,9 +111,10 @@
             <table class="table">
               <thead>
                 <tr>
-                  <!-- <th scope="col">Product Name</th>
-                  <th scope="col">Image</th>
-                  <th scope="col">Quantity</th> -->
+                  <th scope="col">No</th>
+                  <th scope="col">Product</th>
+                  <th scope="col">Detail</th>
+                  <th scope="col">Quantity</th>
                 </tr>
               </thead>
               <tbody id="cbody">
@@ -192,8 +192,37 @@
       render()
       render2()
       render3()
-      
 
+      $(document).ready(() =>{
+          renderImg()       
+        })
+
+      //get img
+      function renderImg() {
+            $.ajax({
+                  method: 'get',
+                  url:'http://localhost:3000/getImg',
+                  success: (response) => {
+                      
+                      console.log('Render Get Product !', response)
+                      if(response.resCode == 200) {
+                          data = response.Result;
+                          if(data.length > 0) {
+                            var html = '';
+                            for (let i = 0; i < data.length; i++) {
+                              html += `
+                              <img class="image" src="${data[i].img}" alt="">
+                              
+                              `;
+                            }   
+                            $("#Avatar").html(html)                                          
+                        }
+                      }
+                  }, error:(err) => {
+                      console.log('bad', err)
+                  }
+              }) 
+          }
 
       //save requisition
       function saverequisition() {
@@ -307,6 +336,7 @@
                                 <td>${data[i].productnames}</td>
                                 <td>${data[i].detail} </td> 
                                 <td>${data[i].total} ชิ้น</td> 
+                                <td>${data[i].acc}</td> 
                                 </td>
                               </tr>
                             `;
@@ -339,10 +369,10 @@
                                 <td>${data[i].productnames}</td>
                                 <td>${data[i].detail} </td> 
                                 <td>${data[i].total} ชิ้น</td> 
+                                <td>${data[i].acc}</td> 
                                 </td>
                                 <td>
                                 <button onclick="update(${data[i].id}, ${i})" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modaledit">ยืนยัน</button>
-                                <td>
                                 <button onclick="deleteproduct(${data[i].id}, ${i}, '${data[i].name}')" type="button" class="btn btn-danger">ยกเลิก</button>
                                 </td>
                               </tr>
