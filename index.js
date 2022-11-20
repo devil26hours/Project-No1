@@ -51,7 +51,7 @@ app.use(express.static(path.join(__dirname, 'imgs')));
 app.use(cookieSession({
     name: 'session',
     keys: ['key1', 'key2'],
-    maxAge:  3600 * 1000 // 1hr
+    maxAge:  12 * 60 * 60 * 1000 
 }));
 
 // DECLARING CUSTOM MIDDLEWARE
@@ -392,10 +392,12 @@ app.post('/', ifLoggedin, [
                     req.session.user_name = rows[0].name;
                     req.session.userImg = rows[0].img;
                     req.session.userLevel = rows[0].level;
+
                     console.log(req.session.userID)
                     console.log(req.session.user_name)
                     console.log(req.session.userImg)
                     console.log(req.session.userLevel)
+                    
 
                     res.redirect('/');
                 }
