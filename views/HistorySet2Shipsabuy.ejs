@@ -71,16 +71,7 @@
                 { data: 'invoid_no' },
                 { data: 'acc' }
             ]
-        } );
-        $.ajax({
-            method: 'get',
-            url:'http://localhost:3000/api/getset2historyshipsabuy',
-            success: (response) => {
-                console.log('sethistory', response)
-            }, error:(err) => {
-                console.log('bad', err)
-            }
-        }) 
+        } ); 
     });
 
 

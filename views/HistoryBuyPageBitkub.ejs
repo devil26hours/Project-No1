@@ -72,15 +72,6 @@
                 { data: 'acc' }
             ]
         } );
-        $.ajax({
-            method: 'get',
-            url:'http://localhost:3000/api/getbuyhistorybitkub',
-            success: (response) => {
-                console.log('buyhistory', response)
-            }, error:(err) => {
-                console.log('bad', err)
-            }
-        }) 
     });
 
 

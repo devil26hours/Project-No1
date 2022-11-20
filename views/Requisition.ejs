@@ -31,7 +31,7 @@
                   <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                   </button>
                   <ul class="dropdown-menu text-center" style="background: rgb(255, 255, 255); border: 1.5px solid black; cursor: pointer;">
-                    <li><a id="acc" class="dropdown-item" style="font-size:20px" ><%= name %></a></li>
+                    <li><a id="accname" class="dropdown-item" style="font-size:20px" ><%= name %></a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a href="logout" style="color: red;">Logout</a></li>
                   </ul>
@@ -43,7 +43,7 @@
       <div class="container-2">
         <div class="sidebar">
           <button class="menu-bar5" onclick="document.location='/'"><i class="fa-solid fa-backward"></i> HOMEPAGE </button> 
-          <button class="menu-bar" onclick="render4()" data-bs-toggle="modal" data-bs-target="#modalReq"> รายการคำขอเบิก </button> 
+          <button class="menu-bar" onclick="document.location='ReqReport'" data-bs-toggle="modal" data-bs-target="#modalReq"> รายการเบิก </button> 
         <!-- <input  onfocus="this.value=''" class="info" id="invoid" type="text" style="text-align: center;" placeholder="กรอกข้อมูลอ้างอิง">  -->
         </div>
 
@@ -116,6 +116,7 @@
                   <th scope="col">รายละเอียด</th>
                   <th scope="col">จำนวน</th>
                   <th scope="col">ผู้เบิก</th>
+                  <th scope="col">คำสั่ง</th>
                 </tr>
               </thead>
               <tbody id="cbody">
@@ -127,15 +128,15 @@
         </div>
       </div>
 
-        <div class="container6">
+        <!-- <div class="container6">
           <h5 style="text-align:center; margin-top: 10px;">รายการเบิกอนุมัติแล้ว</h5>
           <div class="productcontainer2">
             <table class="table">
               <thead>
                 <tr>
-                  <!-- <th scope="col">Product Name</th>
+                  <th scope="col">Product Name</th>
                   <th scope="col">Image</th>
-                  <th scope="col">Quantity</th> -->
+                  <th scope="col">Quantity</th>
                 </tr>
               </thead>
               <tbody id="cbody">
@@ -145,51 +146,16 @@
               </tbody>
             </table> 
         </div>
-        </div>
+        </div> -->
  
-
-         <!-- modal req-->
-    <div id="modalReq" class="modal fade" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">รายการเบิกของ</h5>  
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <table class="table">
-              <thead>
-                <tr>
-                  <!-- <th scope="col">Product Name</th>
-                  <th scope="col">Image</th>
-                  <th scope="col">Quantity</th> -->
-                </tr>
-              </thead>
-              <tbody id="sbody">
-                <tbody>
-                  
-                </tbody>  
-              </tbody>
-            </table>
-            
-
-          </div>
-          <div class="modal-footer">
-            <button id="closeaddmodal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <!-- <button  onclick="sellSetProduct()" type="button"  class="btn btn-success">Confirm</button> -->
-
-          </div>
-        </div>
-      </div>
-    </div>
-      
       
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script>
 
-      var data;
+      var dataImg;
+
       render()
       render2()
       render3()
@@ -205,14 +171,14 @@
                   url:'http://localhost:3000/getImg',
                   success: (response) => {
                       
-                      console.log('Render Get Product !', response)
+                      console.log('Render Img !', response)
                       if(response.resCode == 200) {
-                          data = response.Result;
-                          if(data.length > 0) {
+                          dataImg = response.Result;
+                          if(dataImg.length > 0) {
                             var html = '';
-                            for (let i = 0; i < data.length; i++) {
+                            for (let i = 0; i < dataImg.length; i++) {
                               html += `
-                              <img class="image" src="${data[i].img}" alt="">
+                              <img class="image" src="${dataImg[i].img}" alt="">
                               
                               `;
                             }   
@@ -322,7 +288,7 @@
       function render3() {
           $.ajax({
                 method: 'get',
-                url:'http://localhost:3000/api/getallstockrequisition',
+                url:'http://localhost:3000/api/getrequisition',
                 success: (response) => {
                     
                     console.log('Render requisition !', response)
@@ -338,6 +304,7 @@
                                 <td>${data[i].detail} </td> 
                                 <td>${data[i].total} ชิ้น</td> 
                                 <td>${data[i].acc}</td> 
+                                <td><button onclick="confirmReq(${data[i].id}, ${i}, '${data[i].name}')" class="confirmReq" type="button">ยืนยัน</button></td> 
                                 </td>
                               </tr>
                             `;
@@ -351,56 +318,18 @@
             }) 
         }
 
-      //get Requisition Req
-      function render4() {
-          $.ajax({
-                method: 'get',
-                url:'http://localhost:3000/api/getallstockrequisition',
-                success: (response) => {
-                    
-                    console.log('Render requisition !', response)
-                    if(response.resCode == 200) {
-                        data = response.Result;
-                        if(data.length > 0) {
-                          var html = '';
-                          for (let i = 0; i < data.length; i++) {
-                            html += `
-                              <tr>
-                                <th scope="row">${i+1}</th>
-                                <td>${data[i].productnames}</td>
-                                <td>${data[i].detail} </td> 
-                                <td>${data[i].total} ชิ้น</td> 
-                                <td>${data[i].acc}</td> 
-                                </td>
-                                <td>
-                                <button onclick="update(${data[i].id}, ${i})" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modaledit">ยืนยัน</button>
-                                <button onclick="deleteproduct(${data[i].id}, ${i}, '${data[i].name}')" type="button" class="btn btn-danger">ยกเลิก</button>
-                                </td>
-                              </tr>
-                            `;
-                          }   
-                          $("#sbody").html(html)                                          
-                      }
-                    }
-                }, error:(err) => {
-                    console.log('bad', err)
-                }
-            }) 
-        }
-
-
-         //delete
-         function deleteproduct(pid, index, productnames){
+        //confirmed Req
+        function confirmReq(pid, index, productnames){
           Swal.fire({
               icon: "warning",
-              title: 'ต้องการยกเลิกคำขอใช่หรือไม่ '+'?',
-              showConfirmButton: false,
-              showDenyButton: true,
-              showCancelButton: true,
-              confirmButtonText: 'Save',
-              denyButtonText: `Delete`,
+              title: 'ต้องการยืนยันคำร้องขอใช่หรือไม่ '+'?',
+              showConfirmButton: true,
+              showDenyButton: false,
+              showCancelButton: false,
+              confirmButtonText: 'ยืนยัน',
+              denyButtonText: `deleate`,
           }).then((result) => {
-              if (result.isDenied) {
+              if (result.isConfirmed) {
                 $.ajax({
                   method: 'delete',
                   url: 'http://localhost:3000/api/deletestockrequisition',
@@ -409,21 +338,23 @@
                   }, success: (response) => {
                     console.log('good', response)
                     if(response.resCode == 200) {
-                      Swal.fire('Changes are saved', '', 'success')
+                      // Swal.fire('Changes are saved', '', 'success')
+                      
                     }
                     render();
-                  render2()
-                  render3()
+                    render2()
+                    render3()
+                    window.location.reload()
                   }, error: (err) =>{
                     console.log('bad', err)
                   }
                 })
                 $("#modalReq").trigger('click')
-              
               }
           })
         }
 
+        
 
 
 

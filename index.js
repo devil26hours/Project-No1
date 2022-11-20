@@ -301,6 +301,16 @@ app.get('/HistoryBuyPage', ifNotLoggedin, (req,res,next) => {
     
 });
 
+app.get('/ReqReport', ifNotLoggedin, (req,res,next) => {
+    dbconnection.execute("SELECT `name` FROM `users` WHERE `id`=?",[req.session.userID])
+    .then(([rows]) => {
+        res.render('ReqReport',{
+            name:rows[0].name
+        });
+    });
+    
+});
+
 // END OF ROOT PAGE
 // REGISTER PAGE
 app.post('/register', ifLoggedin, 
@@ -381,9 +391,11 @@ app.post('/', ifLoggedin, [
                     req.session.userID = rows[0].id;
                     req.session.user_name = rows[0].name;
                     req.session.userImg = rows[0].img;
+                    req.session.userLevel = rows[0].level;
                     console.log(req.session.userID)
                     console.log(req.session.user_name)
                     console.log(req.session.userImg)
+                    console.log(req.session.userLevel)
 
                     res.redirect('/');
                 }
@@ -867,9 +879,41 @@ app.get('/api/getallstockbitkub',(req, res) => {
 })
 
 //get Requisition
-app.get('/api/getallstockrequisition',(req, res) => {
+app.get('/api/getrequisition',(req, res) => {
     try{
         connection.query('select * from requisition', [],
+        (err, data, fil) => {
+            if(data && data[0] && data) {
+
+                return res.status(200).json({
+                    resCode: 200,
+                    ResMessag: 'success',
+                    Result: data
+                })
+            }
+            else {
+                    console.log('ERR 0! : not found data')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: not found data',
+                        Log: 1
+                    })
+            }
+        })
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+    }
+})
+//get reqreport
+app.get('/api/getreqreport',(req, res) => {
+    try{
+        connection.query('select * from reqreport', [],
         (err, data, fil) => {
             if(data && data[0] && data) {
 
@@ -1426,7 +1470,7 @@ app.get('/api/getset3history',(req, res) => {
 })
 
 //getsellset1 historyproduct shipsabuy
-app.get('/api/getset1historyshipsabuy',(req, res) => {
+app.get('/api/getset1history',(req, res) => {
     try{
         connection.query('select * from tbl_set1_history_shipsabuy', [],
         (err, data, fil) => {
@@ -2611,7 +2655,7 @@ app.post('/api/insertset4stockshipsabuy', (req, res)=>{
     try{
         if( Date &&  stockname && quantity ) {
             connection.query('insert into tbl_set4_history_shipsabuy (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no, acc
+                Date, stockname, quantity, invoid_no,acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -2831,8 +2875,12 @@ app.delete('/api/deletestockbitkub',(req, res) => {
 //delete requisition
 app.delete('/api/deletestockrequisition',(req, res) => {
     var id = _.get(req, ['body', 'id']);
+    var Level = [req.session.userLevel];
+    var need = 'Admin' 
+
+    console.log("Level",Level)
     try {
-        if(id) {
+        if(Level == need ) {
             connection.query ('delete from requisition where id = ?',[
                 parseInt(id)
             ],(err, resp, fil)=>{
