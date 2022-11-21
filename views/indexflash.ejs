@@ -244,6 +244,8 @@
               <input id="txteditmodalname" type="text" class="form-control" placeholder="Product Name">
               <br>
               <input id="txteditmodalquantity" type="text" class="form-control" placeholder="Product Quantity">
+              <br>
+              <input id="txteditmodalImg" type="text" class="form-control" placeholder="Product Img">
             </div>
             <div class="modal-footer">
               <button id="closeeditmodal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -326,8 +328,10 @@
                                   </p>
                                 </td>
                                 <td>
-                                <!--<button onclick="editproduct(${data[i].id}, ${i})" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modaledit">Edit</button>
-                                <button onclick="deleteproduct(${data[i].id}, ${i}, '${data[i].name}')" type="button" class="btn btn-danger">Delete</button>-->
+                                <button onclick="editproduct(${data[i].id}, ${i})" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modaledit">Edit</button>
+                                </td>
+                                <td>
+                                <button onclick="deleteproduct(${data[i].id}, ${i}, '${data[i].name}')" type="button" class="btn btn-danger">Delete</button>
                                 </td>
                               </tr>
                             `;
@@ -508,6 +512,7 @@
             data: {
               name: $("#txtaddmodal").val(),
               quantity: $("#txtaddquantity").val(),
+              img: $("#txtaddquantity").val(),
             }, success: (response) => {
                 console.log('good', response)
                 if(response.resCode == 200) {
@@ -527,6 +532,7 @@
         function editproduct(pid, index) {
           $("#txteditmodalname").val(data[index].name);
           $("#txteditmodalquantity").val(data[index].quantity);
+          $("#txteditmodalImg").val(data[index].img);
           productid = pid;
         }
  
@@ -538,7 +544,8 @@
             data:{
               id: parseInt(productid),
               name: $("#txteditmodalname").val(),
-              quantity: $("#txteditmodalquantity").val()
+              quantity: $("#txteditmodalquantity").val(),
+              img: $("#txteditmodalImg").val()
             }, success: (response) => {
               console.log('good', response)
               if(response.resCode == 200) {

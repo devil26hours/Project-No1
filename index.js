@@ -747,6 +747,57 @@ app.post('/api/createrequisition', (req, res)=>{
         })
     }
 })
+//create reqreport
+app.post('/api/createreqreport', (req, res)=>{
+    var productnames = _.get(req, ['body', 'productnames']);
+    var total = _.get(req, ['body', 'total']);
+    var detail = _.get(req, ['body', 'detail']);
+    var acc = _.get(req, ['body', 'acc']);
+
+    console.log('productnames', productnames)
+    console.log('total', total)
+    console.log('detail', detail)
+    console.log('acc', acc)
+
+    try {
+        if(productnames && total && detail && acc){
+            connection.query('insert into reqreport (productnames, total, detail, acc) values (?,?,?,?)',
+            [ productnames,total,detail,acc],(err, resp, field)=>{
+                if(resp) {
+                    return res.status(200).json({
+                        resCode: 200,
+                        ResMessag: 'success'
+                        
+                    }) 
+                }
+                else{
+                    console.log('ERR 2! : bad sql ')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: bad sql ',
+                        Log: 2
+                    }) 
+                }
+            })
+        }
+        else{
+            console.log('ERR 1! : Invalid request')
+            return res.status(200).json({
+                resCode: 400,
+                ResMessag: 'bad: Invalid request',
+                Log: 1
+            })
+        }
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+    }
+})
 
 //get shippop
 app.get('/api/getallstock',(req, res) => {
@@ -1472,7 +1523,7 @@ app.get('/api/getset3history',(req, res) => {
 })
 
 //getsellset1 historyproduct shipsabuy
-app.get('/api/getset1history',(req, res) => {
+app.get('/api/getset1historyshipsabuy',(req, res) => {
     try{
         connection.query('select * from tbl_set1_history_shipsabuy', [],
         (err, data, fil) => {
@@ -1767,11 +1818,12 @@ app.put('/api/updatestockflash', (req, res)=>{
     var id = _.get(req, ['body', 'id']);
     var name = _.get(req, ['body', 'name']);
     var quantity = _.get(req, ['body', 'quantity']);
+    var img = _.get(req, ['body', 'img']);
 
     try{
-        if(id && name && quantity) {
-            connection.query('update tbl_stock_flash set name = ?, quantity = ? where id = ? ', [
-                name, quantity, parseInt(id) 
+        if(id && name && quantity && img) {
+            connection.query('update tbl_stock_flash set name = ?, quantity = ?, img = ? where id = ? ', [
+                name, quantity, img, parseInt(id) 
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -1814,11 +1866,57 @@ app.put('/api/updatestockbitkub', (req, res)=>{
     var id = _.get(req, ['body', 'id']);
     var name = _.get(req, ['body', 'name']);
     var quantity = _.get(req, ['body', 'quantity']);
+    var img = _.get(req, ['body', 'img']);
 
     try{
-        if(id && name && quantity) {
-            connection.query('update tbl_stock_bitkub set name = ?, quantity = ? where id = ? ', [
-                name, quantity, parseInt(id) 
+        if(id && name && quantity && img) {
+            connection.query('update tbl_stock_bitkub set name = ?, quantity = ?,img = ? where id = ? ', [
+                name, quantity, img , parseInt(id) 
+            ], (err, data, fil)=>{
+                if(data) {
+                    return res.status(200).json({
+                        resCode: 200,
+                        ResMessag: 'success',
+                        
+                     })
+                }
+                else {
+                    console.log('ERR 2! : Update fail')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: Update fail',
+                        Log: 2
+                     })
+                }
+            })
+        }
+        else{
+            console.log('ERR 1! : Invalid data')
+            return res.status(200).json({
+                resCode: 400,
+                ResMessag: 'bad: Invalid data',
+                Log: 1
+            }) 
+        }
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+
+    }
+})
+//Update Requisition
+app.put('/api/updateRequisition', (req, res)=>{
+    var id = _.get(req, ['body', 'id']);
+    var status = _.get(req, ['body', 'status']);
+    try{
+        if(id && status) {
+            connection.query('update requisition set status = ? where id = ? ', [
+                status , parseInt(id) 
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
