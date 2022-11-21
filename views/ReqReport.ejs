@@ -49,6 +49,7 @@
                     <th>detail</th>
                     <th>total</th>
                     <th>acc</th>
+                    <th>status</th>
                 </tr>
             </thead>
             <tbody>
@@ -75,7 +76,7 @@
     $(document).ready(function () {
         $('#Table1').DataTable( {
             ajax: {
-                url: 'http://localhost:3000/api/getreqreport',
+                url: 'http://localhost:3000/api/getrequisition',
                 dataSrc: 'Result'
             },
             columns: [
@@ -83,6 +84,7 @@
                 { data: 'detail' },
                 { data: 'total' },
                 { data: 'acc' },
+                { data: 'status' },
                 
             ]
         } );
