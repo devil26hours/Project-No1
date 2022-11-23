@@ -16,6 +16,12 @@ nav {
     width: 17vw;
     object-fit: contain;
 }
+.logonav-main {
+    margin-top: 2vw;
+    width: 25vw;
+    object-fit: contain;
+}
+
 
 .modal-header{
     background: linear-gradient(125deg, #1be6c4, #103c9c);
@@ -149,21 +155,34 @@ nav {
     background: rgb(199, 197, 197);
 }
 
+.productcontainerHead {
+   margin-top: 0.5vw;
+    width: 50vw;
+    height: 1vw;
+    
+    
+}
 .productcontainer {
-    width: 60vw;
+    width: 50vw;
     height: 42vw;
     overflow: scroll;
     overflow-x: hidden;
-    margin-top: 1vw;
+    
 }
 
 .tableproduct, th, td {
     margin-top: 1vw;
     margin-left: 1vw;   
 }
+.tableHead{
+    margin-left: 1vw;
+    margin-left: 1vw;
+    
+}
 
 .menu-bar {
     background: white;
+    background: linear-gradient(125deg, #5eedd5, #9eb9f2);
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
@@ -179,6 +198,7 @@ nav {
 }
 .menu-bar2 {
     background: white;
+    background: linear-gradient(125deg, #f16161, #f669a3);
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
@@ -193,7 +213,8 @@ nav {
     transition: 0.3s;
 }
 .menu-bar3 {
-    background: white;
+    background: rgb(97, 240, 120);
+    /* background: linear-gradient(125deg, #1aee52, #b5ed87); */
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
@@ -209,6 +230,7 @@ nav {
 }
 .menu-bar4 {
     background: white;
+    background: linear-gradient(125deg, #f8ff91, #fcc47b);
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
@@ -223,12 +245,12 @@ nav {
     transition: 0.3s;
 }
 .menu-bar5 {
-    background: white;
+    color: rgb(2, 2, 2);
+    background: #777777;
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid black;
-    color: black;
     font-size: 1.1vw;
     
 }
@@ -239,6 +261,7 @@ nav {
 }
 .menu-bar6 {
     background: white;
+    background: linear-gradient(125deg, #fc9595, #f8745f);
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
@@ -254,6 +277,7 @@ nav {
 }
 .menu-bar7 {
     background: white;
+    background: linear-gradient(125deg, #ffff9f, #f2dd67);
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
@@ -264,11 +288,12 @@ nav {
 }
 .menu-bar7:hover {
     background: linear-gradient(125deg, #ffff00, #f2dd67);
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     transition: 0.3s;
 }
 .menu-bar8 {
     background: white;
+    background: linear-gradient(125deg, #85fabc, #10fa7d);
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
@@ -279,11 +304,12 @@ nav {
 }
 .menu-bar8:hover {
     background: linear-gradient(125deg, #2cf489, #10fa7d);
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     transition: 0.3s;
 }
 .menu-bar9 {
     background: white;
+    background: linear-gradient(125deg, #d3aaf9, #60eea2);
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
@@ -294,18 +320,18 @@ nav {
 }
 .menu-bar9:hover {
     background: linear-gradient(125deg, #8b13fb, #10fa7d);
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     transition: 0.3s;
 }
 .info {
-    padding: 10px;
+    padding: 5px;
     border: 1px solid transparent;
     width: 100%;
     outline: none;
     border-radius: 10px;
     background: white;
     transition: .5s;
-    margin-bottom: 25px;
+    margin-bottom: 5px;
     font-size: 1vw;
     border: 1px solid black;
 }
@@ -471,7 +497,7 @@ History buy
 }
 .container6 {
     width: 100%;
-    height: 38.8vw;
+    height: 35vw;
     /* background: grey; */
     margin-top: 0.7vw;
     margin-left: 2vw;
@@ -565,7 +591,7 @@ History buy
 
 .productcontainer2 {
     width: 100%;
-    height: 100%;
+    height: 80%;
     margin-top: 0.7vw;
     margin-bottom: 10vw;
     margin-right: 1vw;
@@ -638,3 +664,27 @@ History buy
   box-shadow: rgba(255, 153, 0, 0.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
   transform: scale(1.05) rotate(-1deg);
 }
+
+.detailPop{
+    
+    /* background-color: #10fa7d; */
+    border: solid 1px rgb(208, 207, 207);
+    border-radius: 20px;
+    margin-bottom: 0.5vw;
+}
+.detailPop-main{
+    
+    text-align: center;
+    /* background-color: #fa2b10; */
+    /* border: solid 1px black; */
+    border-radius: 20px;
+}
+.detailPop-main-in{
+    height: 20vw;
+    overflow: scroll;
+    overflow-x: hidden;
+    text-align: left;
+    margin-left: 1vw;
+    
+}
+

@@ -16,14 +16,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
-<body>
 
+<body>
     <nav class="nav-2">
             <div class="nav-container">
                 <a href="indexshipsabuy">
                     <img src="./imgs/LOGOSHIPSABUY.png" class="logonav">
                 </a>  
-                <H1 class="title-stockmain"><sub>STOCK</sub></H1> 
+                <!-- <H1 class="title-stockmain"><sub>STOCK</sub></H1>  -->
                 <div class="acc" id="Avatar">
               
                 </div>
@@ -37,14 +37,13 @@
                     <li><a class="dropdown-item" href="logout">Logout</a></li>
                   </ul>
                 </div>
-
             </div>
     </nav>
 
       <div class="container-2">
         <div class="sidebar">
           <button class="menu-bar5" onclick="document.location='/'"><i class="fa-solid fa-backward"></i> HOMEPAGE </button> 
-          <h4>MENU</h4>
+          <h4><b>MENU</b></h4>
           <button onclick="buyproduct()"  class="menu-bar3"  >
             <i class="fa-solid fa-cart-shopping"></i> BUY
           </button>
@@ -55,7 +54,7 @@
             <i class="fa-brands fa-dropbox"></i> ADD NEW PRODUCT
           </button>
           <p>
-          <h4>SABUY SET</h4>
+          <b><h4>SABUY SET</h4></b>
           <button onclick="reset_ddl1()"  class="menu-bar6" data-bs-toggle="modal" data-bs-target="#modalSet">
             <i class="fa-solid fa-boxes-stacked"></i> SET 1
           </button>
@@ -70,7 +69,7 @@
           </button>
           <td>
             <p>
-            <h4><i class="fa-solid fa-exclamation"></i> Receipt & Info</h4>
+            <h4><i class="fa-solid fa-exclamation"></i><b> Receipt & Info</b></h4>
             <input  onfocus="this.value=''" class="info" id="invoid" type="text" style="text-align: center;" placeholder="กรอกข้อมูลอ้างอิง">
         </div>
  
@@ -94,8 +93,7 @@
     </div>
 
         <div class="container2">
-            <h4>REPORT & HISTORY</h4>
-             
+            <h4><b>REPORT & HISTORY</b></h4>
             <button class="menu-bar6" onclick="document.location='HistoryBuyPageShipsabuy'"><i class="fa-solid fa-clock-rotate-left"></i> Buy </button> 
             <button class="menu-bar6" onclick="document.location='HistorySellPageShipsabuy'"><i class="fa-solid fa-clock-rotate-left"></i> Sell </button>
             <button class="menu-bar6" onclick="document.location='HistorySet1Shipsabuy'"><i class="fa-solid fa-clock-rotate-left"></i> Set1 </button>

@@ -119,6 +119,24 @@ app.get('/indexshipsabuy', ifNotLoggedin, (req,res,next) => {
     });
     
 });
+app.get('/indexquik', ifNotLoggedin, (req,res,next) => {
+    dbconnection.execute("SELECT `name` FROM `users` WHERE `id`=?",[req.session.userID])
+    .then(([rows]) => {
+        res.render('indexquik',{
+            name:rows[0].name
+        });
+    });
+    
+});
+app.get('/indexpoststation', ifNotLoggedin, (req,res,next) => {
+    dbconnection.execute("SELECT `name` FROM `users` WHERE `id`=?",[req.session.userID])
+    .then(([rows]) => {
+        res.render('indexpoststation',{
+            name:rows[0].name
+        });
+    });
+    
+});
 
 app.get('/rpa', ifNotLoggedin, (req,res,next) => {
     dbconnection.execute("SELECT `name` FROM `users` WHERE `id`=?",[req.session.userID])
@@ -151,6 +169,24 @@ app.get('/rpashipsabuy', ifNotLoggedin, (req,res,next) => {
     dbconnection.execute("SELECT `name` FROM `users` WHERE `id`=?",[req.session.userID])
     .then(([rows]) => {
         res.render('rpashipsabuy',{
+            name:rows[0].name
+        });
+    });
+    
+});
+app.get('/rpaquik', ifNotLoggedin, (req,res,next) => {
+    dbconnection.execute("SELECT `name` FROM `users` WHERE `id`=?",[req.session.userID])
+    .then(([rows]) => {
+        res.render('rpaquik',{
+            name:rows[0].name
+        });
+    });
+    
+});
+app.get('/rpapoststation', ifNotLoggedin, (req,res,next) => {
+    dbconnection.execute("SELECT `name` FROM `users` WHERE `id`=?",[req.session.userID])
+    .then(([rows]) => {
+        res.render('rpapoststation',{
             name:rows[0].name
         });
     });
@@ -255,6 +291,24 @@ app.get('/HistorySellPageBitkub', ifNotLoggedin, (req,res,next) => {
     });
     
 });
+app.get('/HistorySellPageQuik', ifNotLoggedin, (req,res,next) => {
+    dbconnection.execute("SELECT `name` FROM `users` WHERE `id`=?",[req.session.userID])
+    .then(([rows]) => {
+        res.render('HistorySellPageQuik',{
+            name:rows[0].name
+        });
+    });
+    
+});
+app.get('/HistorySellPagePoststation', ifNotLoggedin, (req,res,next) => {
+    dbconnection.execute("SELECT `name` FROM `users` WHERE `id`=?",[req.session.userID])
+    .then(([rows]) => {
+        res.render('HistorySellPagePoststation',{
+            name:rows[0].name
+        });
+    });
+    
+});
 app.get('/HistorySellPage', ifNotLoggedin, (req,res,next) => {
     dbconnection.execute("SELECT `name` FROM `users` WHERE `id`=?",[req.session.userID])
     .then(([rows]) => {
@@ -291,6 +345,24 @@ app.get('/HistoryBuyPageBitkub', ifNotLoggedin, (req,res,next) => {
     });
     
 });
+app.get('/HistoryBuyPageQuik', ifNotLoggedin, (req,res,next) => {
+    dbconnection.execute("SELECT `name` FROM `users` WHERE `id`=?",[req.session.userID])
+    .then(([rows]) => {
+        res.render('HistoryBuyPageQuik',{
+            name:rows[0].name
+        });
+    });
+    
+});
+app.get('/HistoryBuyPagePoststation', ifNotLoggedin, (req,res,next) => {
+    dbconnection.execute("SELECT `name` FROM `users` WHERE `id`=?",[req.session.userID])
+    .then(([rows]) => {
+        res.render('HistoryBuyPagePoststation',{
+            name:rows[0].name
+        });
+    });
+    
+});
 app.get('/HistoryBuyPage', ifNotLoggedin, (req,res,next) => {
     dbconnection.execute("SELECT `name` FROM `users` WHERE `id`=?",[req.session.userID])
     .then(([rows]) => {
@@ -308,7 +380,15 @@ app.get('/ReqReport', ifNotLoggedin, (req,res,next) => {
             name:rows[0].name
         });
     });
-    
+});
+
+app.get('/FormStock', (req,res,next) => {
+    dbconnection.execute("SELECT `name` FROM `users` WHERE `id`=?",[req.session.userID])
+    .then(([rows]) => {
+        res.render('FormStock',{
+            name:rows[0].name
+        });
+    });
 });
 
 // END OF ROOT PAGE
@@ -799,6 +879,104 @@ app.post('/api/createreqreport', (req, res)=>{
     }
 })
 
+//create quik
+app.post('/api/createstockquik', (req, res)=>{
+    var stockname = _.get(req, ['body', 'name']);
+    var stockquantity = _.get(req, ['body', 'quantity']);
+
+    console.log('stockname', stockname)
+    console.log('stockquantity', stockquantity)
+
+    try {
+        if(stockname && stockquantity){
+            connection.query('insert into tbl_stock_quik (name, quantity) values (?,?)',[
+                stockname, stockquantity
+            ],(err, resp, field)=>{
+                if(resp) {
+                    return res.status(200).json({
+                        resCode: 200,
+                        ResMessag: 'success'
+                        
+                    }) 
+                }
+                else{
+                    console.log('ERR 2! : bad sql ')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: bad sql ',
+                        Log: 2
+                    }) 
+                }
+            })
+        }
+        else{
+            console.log('ERR 1! : Invalid request')
+            return res.status(200).json({
+                resCode: 400,
+                ResMessag: 'bad: Invalid request',
+                Log: 1
+            })
+        }
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+    }
+})
+
+//create poststation
+app.post('/api/createstockpoststation', (req, res)=>{
+    var stockname = _.get(req, ['body', 'name']);
+    var stockquantity = _.get(req, ['body', 'quantity']);
+
+    console.log('stockname', stockname)
+    console.log('stockquantity', stockquantity)
+
+    try {
+        if(stockname && stockquantity){
+            connection.query('insert into tbl_stock_poststation (name, quantity) values (?,?)',[
+                stockname, stockquantity
+            ],(err, resp, field)=>{
+                if(resp) {
+                    return res.status(200).json({
+                        resCode: 200,
+                        ResMessag: 'success'
+                        
+                    }) 
+                }
+                else{
+                    console.log('ERR 2! : bad sql ')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: bad sql ',
+                        Log: 2
+                    }) 
+                }
+            })
+        }
+        else{
+            console.log('ERR 1! : Invalid request')
+            return res.status(200).json({
+                resCode: 400,
+                ResMessag: 'bad: Invalid request',
+                Log: 1
+            })
+        }
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+    }
+})
+
 //get shippop
 app.get('/api/getallstock',(req, res) => {
     try{
@@ -967,6 +1145,71 @@ app.get('/api/getrequisition',(req, res) => {
 app.get('/api/getreqreport',(req, res) => {
     try{
         connection.query('select * from reqreport', [],
+        (err, data, fil) => {
+            if(data && data[0] && data) {
+
+                return res.status(200).json({
+                    resCode: 200,
+                    ResMessag: 'success',
+                    Result: data
+                })
+            }
+            else {
+                    console.log('ERR 0! : not found data')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: not found data',
+                        Log: 1
+                    })
+            }
+        })
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+    }
+})
+//get quik
+app.get('/api/getquik',(req, res) => {
+    try{
+        connection.query('select * from tbl_stock_quik', [],
+        (err, data, fil) => {
+            if(data && data[0] && data) {
+
+                return res.status(200).json({
+                    resCode: 200,
+                    ResMessag: 'success',
+                    Result: data
+                })
+            }
+            else {
+                    console.log('ERR 0! : not found data')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: not found data',
+                        Log: 1
+                    })
+            }
+        })
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+    }
+})
+
+//get poststation
+app.get('/api/getpoststation',(req, res) => {
+    try{
+        connection.query('select * from tbl_stock_poststation', [],
         (err, data, fil) => {
             if(data && data[0] && data) {
 
@@ -1274,6 +1517,77 @@ app.get('/api/getbuyhistorybitkub',(req, res) => {
     }
 })
 
+//getbuyhistoryproduct quik
+app.get('/api/getbuyhistoryquik',(req, res) => {
+    try{
+        connection.query('select * from tbl_buy_history_quik', [],
+        (err, data, fil) => {
+            if(data && data[0]) {
+
+                return res.status(200).json({
+                    resCode: 200,
+                    ResMessag: 'success',
+                    Result: data
+                })
+            }
+            else {
+
+                    console.log('ERR 0! : not found data')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: not found data',
+                        Log: 1
+                    })
+            }
+        })
+
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+
+    }
+})
+//getbuyhistoryproduct poststation
+app.get('/api/getbuyhistorypoststation',(req, res) => {
+    try{
+        connection.query('select * from tbl_buy_history_poststation', [],
+        (err, data, fil) => {
+            if(data && data[0]) {
+
+                return res.status(200).json({
+                    resCode: 200,
+                    ResMessag: 'success',
+                    Result: data
+                })
+            }
+            else {
+
+                    console.log('ERR 0! : not found data')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: not found data',
+                        Log: 1
+                    })
+            }
+        })
+
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+
+    }
+})
+
 //getsellhistoryproduct
 app.get('/api/getsellhistory',(req, res) => {
     try{
@@ -1384,6 +1698,77 @@ app.get('/api/getsellhistoryflash',(req, res) => {
 app.get('/api/getsellhistorybitkub',(req, res) => {
     try{
         connection.query('select * from tbl_sell_history_bitkub', [],
+        (err, data, fil) => {
+            if(data && data[0]) {
+
+                return res.status(200).json({
+                    resCode: 200,
+                    ResMessag: 'success',
+                    Result: data
+                })
+            }
+            else {
+
+                    console.log('ERR 0! : not found data')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: not found data',
+                        Log: 1
+                    })
+            }
+        })
+
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+
+    }
+})
+//getsellhistoryproduct quik
+app.get('/api/getsellhistoryquik',(req, res) => {
+    try{
+        connection.query('select * from tbl_sell_history_quik', [],
+        (err, data, fil) => {
+            if(data && data[0]) {
+
+                return res.status(200).json({
+                    resCode: 200,
+                    ResMessag: 'success',
+                    Result: data
+                })
+            }
+            else {
+
+                    console.log('ERR 0! : not found data')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: not found data',
+                        Log: 1
+                    })
+            }
+        })
+
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+
+    }
+})
+
+//getsellhistoryproduct poststation
+app.get('/api/getsellhistorypoststation',(req, res) => {
+    try{
+        connection.query('select * from tbl_sell_history_poststation', [],
         (err, data, fil) => {
             if(data && data[0]) {
 
@@ -1818,12 +2203,11 @@ app.put('/api/updatestockflash', (req, res)=>{
     var id = _.get(req, ['body', 'id']);
     var name = _.get(req, ['body', 'name']);
     var quantity = _.get(req, ['body', 'quantity']);
-    var img = _.get(req, ['body', 'img']);
 
     try{
-        if(id && name && quantity && img) {
-            connection.query('update tbl_stock_flash set name = ?, quantity = ?, img = ? where id = ? ', [
-                name, quantity, img, parseInt(id) 
+        if(id && name && quantity) {
+            connection.query('update tbl_stock_flash set name = ?, quantity = ? where id = ? ', [
+                name, quantity, parseInt(id) 
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -1866,12 +2250,11 @@ app.put('/api/updatestockbitkub', (req, res)=>{
     var id = _.get(req, ['body', 'id']);
     var name = _.get(req, ['body', 'name']);
     var quantity = _.get(req, ['body', 'quantity']);
-    var img = _.get(req, ['body', 'img']);
 
     try{
-        if(id && name && quantity && img) {
-            connection.query('update tbl_stock_bitkub set name = ?, quantity = ?,img = ? where id = ? ', [
-                name, quantity, img , parseInt(id) 
+        if(id && name && quantity ) {
+            connection.query('update tbl_stock_bitkub set name = ?, quantity = ? where id = ? ', [
+                name, quantity, parseInt(id) 
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -1955,6 +2338,102 @@ app.put('/api/updateRequisition', (req, res)=>{
     }
 })
 
+//Update quik
+app.put('/api/updatestockquik', (req, res)=>{
+    var id = _.get(req, ['body', 'id']);
+    var name = _.get(req, ['body', 'name']);
+    var quantity = _.get(req, ['body', 'quantity']);
+
+    try{
+        if(id && name && quantity) {
+            connection.query('update tbl_stock_quik set name = ?, quantity = ? where id = ? ', [
+                name, quantity, parseInt(id) 
+            ], (err, data, fil)=>{
+                if(data) {
+                    return res.status(200).json({
+                        resCode: 200,
+                        ResMessag: 'success',
+                        
+                     })
+                }
+                else {
+                    console.log('ERR 2! : Update fail')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: Update fail',
+                        Log: 2
+                     })
+                }
+            })
+        }
+        else{
+            console.log('ERR 1! : Invalid data')
+            return res.status(200).json({
+                resCode: 400,
+                ResMessag: 'bad: Invalid data',
+                Log: 1
+            }) 
+        }
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+
+    }
+})
+
+//Update poststation
+app.put('/api/updatestockpoststation', (req, res)=>{
+    var id = _.get(req, ['body', 'id']);
+    var name = _.get(req, ['body', 'name']);
+    var quantity = _.get(req, ['body', 'quantity']);
+
+    try{
+        if(id && name && quantity ) {
+            connection.query('update tbl_stock_poststation set name = ?, quantity = ? where id = ? ', [
+                name, quantity,  parseInt(id) 
+            ], (err, data, fil)=>{
+                if(data) {
+                    return res.status(200).json({
+                        resCode: 200,
+                        ResMessag: 'success',
+                        
+                     })
+                }
+                else {
+                    console.log('ERR 2! : Update fail')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: Update fail',
+                        Log: 2
+                     })
+                }
+            })
+        }
+        else{
+            console.log('ERR 1! : Invalid data')
+            return res.status(200).json({
+                resCode: 400,
+                ResMessag: 'bad: Invalid data',
+                Log: 1
+            }) 
+        }
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+
+    }
+})
+
 //insert buy
 app.post('/api/insertstock', (req, res)=>{
 
@@ -1962,6 +2441,7 @@ app.post('/api/insertstock', (req, res)=>{
     var stockname = _.get(req, ['body', 'stockname']);
     var quantity = _.get(req, ['body', 'quantity']);
     var invoid_no = _.get(req, ['body', 'invoid_no']);
+    var customer_name = _.get(req, ['body', 'customer_name']);
     var acc = [req.session.user_name];
 
 
@@ -1969,12 +2449,13 @@ app.post('/api/insertstock', (req, res)=>{
     console.log('stockname', stockname)
     console.log('quantity', quantity)
     console.log('invoid_no', invoid_no)
+    console.log('customer_name', customer_name)
     console.log('acc', acc)
 
     try{
         if( Date &&  stockname && quantity ) {
-            connection.query('insert into tbl_buy_history (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no,acc
+            connection.query('insert into tbl_buy_history (Date, stockname, quantity, invoid_no,customer_name, acc) values (?,?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no,customer_name,acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -2180,6 +2661,126 @@ app.post('/api/insertstockbitkub', (req, res)=>{
     }
 })
 
+//insert buy Quik
+app.post('/api/insertstockquik', (req, res)=>{
+
+    var Date = _.get(req, ['body', 'Date']);
+    var stockname = _.get(req, ['body', 'stockname']);
+    var quantity = _.get(req, ['body', 'quantity']);
+    var invoid_no = _.get(req, ['body', 'invoid_no']);
+    var customer_name = _.get(req, ['body', 'customer_name']);
+    var acc = [req.session.user_name];
+
+
+    console.log('Date', Date)
+    console.log('stockname', stockname)
+    console.log('quantity', quantity)
+    console.log('invoid_no', invoid_no)
+    console.log('customer_name', customer_name)
+    console.log('acc', acc)
+
+    try{
+        if( Date &&  stockname && quantity ) {
+            connection.query('insert into tbl_buy_history_quik (Date, stockname, quantity, invoid_no,customer_name, acc) values (?,?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no,customer_name,acc
+            ], (err, data, fil)=>{
+                if(data) {
+                    return res.status(200).json({
+                        resCode: 200,
+                        ResMessag: 'success',
+                        
+                     })
+                }
+                else {
+                    console.log('ERR 2! : Update fail')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: Update fail'+ err,
+                        Log: 2
+                     })
+                }
+            })
+        }
+        else{
+            console.log('ERR 1! : Invalid data')
+            return res.status(200).json({
+                resCode: 400,
+                ResMessag: 'bad: Invalid data',
+                Log: 1
+            }) 
+        }
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+
+    }
+})
+//insert buy poststation
+app.post('/api/insertstockpoststation', (req, res)=>{
+
+    var Date = _.get(req, ['body', 'Date']);
+    var stockname = _.get(req, ['body', 'stockname']);
+    var quantity = _.get(req, ['body', 'quantity']);
+    var invoid_no = _.get(req, ['body', 'invoid_no']);
+    var customer_name = _.get(req, ['body', 'customer_name']);
+    var acc = [req.session.user_name];
+
+
+    console.log('Date', Date)
+    console.log('stockname', stockname)
+    console.log('quantity', quantity)
+    console.log('invoid_no', invoid_no)
+    console.log('customer_name', customer_name)
+    console.log('acc', acc)
+
+    try{
+        if( Date &&  stockname && quantity ) {
+            connection.query('insert into tbl_buy_history_poststation (Date, stockname, quantity, invoid_no,customer_name, acc) values (?,?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no,customer_name,acc
+            ], (err, data, fil)=>{
+                if(data) {
+                    return res.status(200).json({
+                        resCode: 200,
+                        ResMessag: 'success',
+                        
+                     })
+                }
+                else {
+                    console.log('ERR 2! : Update fail')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: Update fail'+ err,
+                        Log: 2
+                     })
+                }
+            })
+        }
+        else{
+            console.log('ERR 1! : Invalid data')
+            return res.status(200).json({
+                resCode: 400,
+                ResMessag: 'bad: Invalid data',
+                Log: 1
+            }) 
+        }
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+
+    }
+})
+
+
 //insert sell
 app.post('/api/insertsellstock', (req, res)=>{
 
@@ -2187,6 +2788,7 @@ app.post('/api/insertsellstock', (req, res)=>{
     var stockname = _.get(req, ['body', 'stockname']);
     var quantity = _.get(req, ['body', 'quantity']);
     var invoid_no = _.get(req, ['body', 'invoid_no']);
+    var customer_name = _.get(req, ['body', 'customer_name']);
     var acc = [req.session.user_name];
 
     console.log('Date', Date)
@@ -2196,8 +2798,8 @@ app.post('/api/insertsellstock', (req, res)=>{
 
     try{
         if( Date &&  stockname && quantity ) {
-            connection.query('insert into tbl_sell_history (Date, stockname, quantity, invoid_no, acc) values (?,?,?,?,?) ', [
-                Date, stockname, quantity, invoid_no,acc
+            connection.query('insert into tbl_sell_history (Date, stockname, quantity, invoid_no,customer_name, acc) values (?,?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no,customer_name,acc
             ], (err, data, fil)=>{
                 if(data) {
                     return res.status(200).json({
@@ -2401,6 +3003,123 @@ app.post('/api/insertsellstockbitkub', (req, res)=>{
 
     }
 })
+
+//insert sell quik
+app.post('/api/insertsellstockquik', (req, res)=>{
+
+    var Date = _.get(req, ['body', 'Date']);
+    var stockname = _.get(req, ['body', 'stockname']);
+    var quantity = _.get(req, ['body', 'quantity']);
+    var invoid_no = _.get(req, ['body', 'invoid_no']);
+    var customer_name = _.get(req, ['body', 'customer_name']);
+    var acc = [req.session.user_name];
+
+    console.log('Date', Date)
+    console.log('stockname', stockname)
+    console.log('quantity', quantity)
+    console.log('invoid_no', invoid_no)
+    console.log('customer_name', customer_name)
+
+    try{
+        if( Date &&  stockname && quantity ) {
+            connection.query('insert into tbl_sell_history_quik (Date, stockname, quantity, invoid_no,customer_name, acc) values (?,?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no,customer_name, acc
+            ], (err, data, fil)=>{
+                if(data) {
+                    return res.status(200).json({
+                        resCode: 200,
+                        ResMessag: 'success',
+                        
+                     })
+                }
+                else {
+                    console.log('ERR 2! : Update fail')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: Update fail'+ err,
+                        Log: 2
+                     })
+                }
+            })
+        }
+        else{
+            console.log('ERR 1! : Invalid data')
+            return res.status(200).json({
+                resCode: 400,
+                ResMessag: 'bad: Invalid data',
+                Log: 1
+            }) 
+        }
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+
+    }
+})
+//insert sell poststation
+app.post('/api/insertsellstockpoststation', (req, res)=>{
+
+    var Date = _.get(req, ['body', 'Date']);
+    var stockname = _.get(req, ['body', 'stockname']);
+    var quantity = _.get(req, ['body', 'quantity']);
+    var invoid_no = _.get(req, ['body', 'invoid_no']);
+    var customer_name = _.get(req, ['body', 'customer_name']);
+    var acc = [req.session.user_name];
+
+    console.log('Date', Date)
+    console.log('stockname', stockname)
+    console.log('quantity', quantity)
+    console.log('invoid_no', invoid_no)
+    console.log('customer_name', customer_name)
+
+    try{
+        if( Date &&  stockname && quantity ) {
+            connection.query('insert into tbl_sell_history_poststation (Date, stockname, quantity, invoid_no,customer_name, acc) values (?,?,?,?,?,?) ', [
+                Date, stockname, quantity, invoid_no,customer_name, acc
+            ], (err, data, fil)=>{
+                if(data) {
+                    return res.status(200).json({
+                        resCode: 200,
+                        ResMessag: 'success',
+                        
+                     })
+                }
+                else {
+                    console.log('ERR 2! : Update fail')
+                    return res.status(200).json({
+                        resCode: 400,
+                        ResMessag: 'bad: Update fail'+ err,
+                        Log: 2
+                     })
+                }
+            })
+        }
+        else{
+            console.log('ERR 1! : Invalid data')
+            return res.status(200).json({
+                resCode: 400,
+                ResMessag: 'bad: Invalid data',
+                Log: 1
+            }) 
+        }
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+
+    }
+})
+
+
 
 //insert set1
 app.post('/api/insertset1stock', (req, res)=>{
@@ -3020,8 +3739,93 @@ app.delete('/api/deletestockrequisition',(req, res) => {
     
 })
 
+//delete quik
+app.delete('/api/deletestockquik',(req, res) => {
+    var id = _.get(req, ['body', 'id']);
+    try {
+        if(id) {
+            connection.query ('delete from tbl_stock_quik where id = ?',[
+                parseInt(id)
+            ],(err, resp, fil)=>{
+               if(resp) {
+                return res.status(200).json({
+                    resCode: 200,
+                    ResMessag: 'good!',
+                })
+               }
+               else {
+                console.log('ERR 2! :bad sql')
+                return res.status(200).json({
+                    resCode: 400,
+                    ResMessag: 'bad: bad sql',
+                    Log: 2
+                })
+               } 
+            })
+        }
+        else {
+            console.log('ERR 1! :Invalid id')
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad: invalid id',
+            Log: 1
+        })
+        }
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+    }
+    
+})
 
-
+//delete poststation
+app.delete('/api/deletestockpoststation',(req, res) => {
+    var id = _.get(req, ['body', 'id']);
+    try {
+        if(id) {
+            connection.query ('delete from tbl_stock_poststation where id = ?',[
+                parseInt(id)
+            ],(err, resp, fil)=>{
+               if(resp) {
+                return res.status(200).json({
+                    resCode: 200,
+                    ResMessag: 'good!',
+                })
+               }
+               else {
+                console.log('ERR 2! :bad sql')
+                return res.status(200).json({
+                    resCode: 400,
+                    ResMessag: 'bad: bad sql',
+                    Log: 2
+                })
+               } 
+            })
+        }
+        else {
+            console.log('ERR 1! :Invalid id')
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad: invalid id',
+            Log: 1
+        })
+        }
+    }
+    catch(error) {
+        console.log('ERR 0! :', error)
+        return res.status(200).json({
+            resCode: 400,
+            ResMessag: 'bad',
+            Log: 0
+        })
+    }
+    
+})
 
 
 // app.listen(3000, () => console.log("Server is Running..."));

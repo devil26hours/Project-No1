@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sell History</title>
+    <title>HistorySellPageQuik</title>
     
     <link rel="icon" href="./imgs/logotitle.png" type="image/icon type">
     
@@ -17,9 +17,9 @@
     
 <body>
 
-    <nav>
+    <nav class="nav-3" >
         <div class="nav-container">
-            <a href="index">
+            <a href="indexquik">
                 <img src="./imgs/shippoplogo.png" class="logonav">
             </a>  
             <H1 class="title-stockmain"><sub>Sell</sub></H1>
@@ -62,7 +62,7 @@
     $(document).ready(function () {
         $('#Table1').DataTable( {
             ajax: {
-                url: 'http://localhost:3000/api/getsellhistory',
+                url: 'http://localhost:3000/api/getsellhistoryquik',
                 dataSrc: 'Result'
             },
             columns: [

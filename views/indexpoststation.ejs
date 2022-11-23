@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BITKUB STOCK</title>
+    <title>POSTSTATION STOCK</title>
 
     <link rel="icon" href="./imgs/logotitle.png" type="image/icon type">
 
@@ -18,10 +18,10 @@
 </head>
 <body>
 
-    <nav class="nav-4">
+    <nav class="nav-3">
             <div class="nav-container">
-                <a href="indexbitkub">
-                    <img src="./imgs/logobitkub.png" class="logonav">
+                <a href="indexpoststation">
+                    <!-- <img src="./imgs/logoflash 2.png" class="logonav"> -->
                 </a>  
                 <!-- <H1 class="title-stockmain"><sub>STOCK</sub></H1>  -->
                 <div class="acc" id="Avatar">
@@ -34,6 +34,7 @@
                     <li><a  class="dropdown-item" style="font-size:20px" ><%= name %> </a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a href="logout" style="color: red;">Logout</a></li>
+                  </ul>
                 </div>
 
             </div>
@@ -42,7 +43,7 @@
       <div class="container-2">
         <div class="sidebar">
           <button class="menu-bar5" onclick="document.location='/'"><i class="fa-solid fa-backward"></i> HOMEPAGE </button> 
-          <h4>MENU</h4>
+          <h4><b>MENU</b></h4>
           <button onclick="buyproduct()"  class="menu-bar3"  >
             <i class="fa-solid fa-download"></i> IN STOCK
           </button>
@@ -52,21 +53,11 @@
           <button   class="menu-bar4" data-bs-toggle="modal" data-bs-target="#modaladd">
             <i class="fa-brands fa-dropbox"></i> ADD NEW PRODUCT
           </button>
-          <p>
-          <!-- <h4>POP SET</h4>
-          <button onclick="reset_ddl1()"  class="menu-bar" data-bs-toggle="modal" data-bs-target="#modalSet">
-            <i class="fa-solid fa-boxes-stacked"></i> SET POP 3000
-          </button>
-          <button onclick="reset_ddl1()" class="menu-bar" data-bs-toggle="modal" data-bs-target="#modalSet2">
-            <i class="fa-solid fa-boxes-stacked"></i> SET POP PLUS
-          </button>
-          <button onclick="reset_ddl1()" class="menu-bar" data-bs-toggle="modal" data-bs-target="#modalSet3">
-            <i class="fa-solid fa-boxes-stacked"></i> SET POP SHOP
-          </button>
-          <td> -->
             <p>
-            <h4><i class="fa-solid fa-exclamation"></i> Receipt & Info</h4>
+            <h4><i class="fa-solid fa-exclamation"></i><b>Receipt & Info</b></h4>
             <input  onfocus="this.value=''" class="info" id="invoid" type="text" style="text-align: center;" placeholder="กรอกข้อมูลอ้างอิง">
+            <input  onfocus="this.value=''" class="info" id="customer_name" type="text" style="text-align: center;" placeholder="ชื่อลูกค้า">
+
         </div>
  
       <div class="productcontainer"> 
@@ -89,130 +80,22 @@
     </div>
 
         <div class="container2">
-            <h4>REPORT & HISTORY</h4>
+            <h4><b> REPORT & HISTORY</b></h4>
              
-            <button class="menu-bar8" onclick="document.location='HistoryBuyPagebitkub'"><i class="fa-solid fa-clock-rotate-left"></i> IN </button> 
-            <button class="menu-bar8" onclick="document.location='HistorySellPagebitkub'"><i class="fa-solid fa-clock-rotate-left"></i> OUT </button>
-            <!-- <button class="menu-bar" onclick="document.location='HistorySet3000'"><i class="fa-solid fa-clock-rotate-left"></i> Set POP 3000 History</button>
-            <button class="menu-bar" onclick="document.location='HistorySetPlus'"><i class="fa-solid fa-clock-rotate-left"></i> Set POP Plus History</button>
-            <button class="menu-bar" onclick="document.location='HistorySetShop'"><i class="fa-solid fa-clock-rotate-left"></i> Set POP Shop History</button> -->
+            <button class="menu-bar7" onclick="document.location='HistoryBuyPagePoststation'"><i class="fa-solid fa-clock-rotate-left"></i> IN </button> 
+            <button class="menu-bar7" onclick="document.location='HistorySellPagePoststation'"><i class="fa-solid fa-clock-rotate-left"></i> OUT </button>
+           
             <p></p>
-            <button class="menu-bar8" onclick="document.location='rpabitkub'"><i class="fa-solid fa-table-cells"></i> All Product</button>
+            <button class="menu-bar7" onclick="document.location='rpaflash'"><i class="fa-solid fa-table-cells"></i> All Product</button>
           </div>
         </div>
       
-
-    <!-- modal set 3000 -->
-    <!-- <div id="modalSet" class="modal fade" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">POP 3000</h5>  
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <select  id="selectshirts" class="form-select" aria-label="Default select example">
-              <option value="" disabled selected>เลือกเสื้อ</option>
-            </select>   
-            <p></p>
-            <select  id="selectshirts2" class="form-select" aria-label="Default select example">
-              <option value="">เลือกเสื้อ</option>
-            </select>  
-            <p></p>
-            <select  id="selectshirts3" class="form-select" aria-label="Default select example">
-              <option value="">เลือกเสื้อ</option >
-            </select>  
-            <p></p>
-            <br>
-            <select  id="selectvinil" class="form-select" aria-label="Default select example">
-              <option value="">เลือกไวนิล</option>
-            </select>  
-          </div>
-          <div class="modal-footer">
-            <button id="closeaddmodal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button  onclick="sellSetProduct()" type="button"  class="btn btn-success">Confirm</button>
-
-          </div>
-        </div>
-      </div>
-    </div> -->
-
-    <!-- modal set pop plus -->
-    <!-- <div id="modalSet2" class="modal fade" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">POP PLUS</h5>  
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <select  id="selectshirts4" class="form-select" aria-label="Default select example">
-              <option value="" disabled selected>เลือกเสื้อ</option>
-            </select>   
-            <p></p>
-            <select  id="selectshirts5" class="form-select" aria-label="Default select example">
-              <option value="">เลือกเสื้อ</option>
-            </select>  
-            <p></p>
-            <select  id="selectshirts6" class="form-select" aria-label="Default select example">
-              <option value="">เลือกเสื้อ</option >
-            </select>  
-            <p></p>
-            <br>
-            <select  id="selectvinil2" class="form-select" aria-label="Default select example">
-              <option value="">เลือกไวนิล</option>
-            </select>  
-          </div>
-          <div class="modal-footer">
-            <button id="closeaddmodal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button  onclick="sellSetProduct2()" type="button"  class="btn btn-success">Confirm</button>
-
-          </div>
-        </div>
-      </div>
-    </div> -->
-
-    <!-- modal set pop Shop -->
-    <!-- <div id="modalSet3" class="modal fade" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">POP SHOP</h5>  
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <select  id="selectshirts7" class="form-select" aria-label="Default select example">
-              <option value="" disabled selected>เลือกเสื้อ</option>
-            </select>   
-            <p></p>
-            <select  id="selectshirts8" class="form-select" aria-label="Default select example">
-              <option value="">เลือกเสื้อ</option>
-            </select>  
-            <p></p>
-            <select  id="selectshirts9" class="form-select" aria-label="Default select example">
-              <option value="">เลือกเสื้อ</option >
-            </select>  
-            <p></p>
-            <br>
-            <select  id="selectvinil3" class="form-select" aria-label="Default select example">
-              <option value="">เลือกไวนิล</option>
-            </select>  
-          </div>
-          <div class="modal-footer">
-            <button id="closeaddmodal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button  onclick="sellSetProduct3()" type="button"  class="btn btn-success">Confirm</button>
-
-          </div>
-        </div>
-      </div>
-    </div> -->
-    
     
     <!--modal Add Product-->
     <div id="modaladd" class="modal fade" tabindex="-1">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header4">
+            <div class="modal-header3">
               <h5 class="modal-title">Add Product</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -284,7 +167,7 @@
                   url:'http://localhost:3000/getImg',
                   success: (response) => {
                       
-                      console.log('Render Get Product !', response)
+                      console.log('Render Avatar !', response)
                       if(response.resCode == 200) {
                           dataImg = response.Result;
                           if(dataImg.length > 0) {
@@ -303,13 +186,14 @@
                   }
               }) 
           }
+
         //get
         function render() {
           $.ajax({
                 method: 'get',
-                url:'http://localhost:3000/api/getallstockbitkub',
+                url:'http://localhost:3000/api/getpoststation',
                 success: (response) => {
-                    console.log('Render Get Product !', response)
+                    console.log('Render poststation !', response)
                     if(response.resCode == 200) {
                         data = response.Result;
                         if(data.length > 0) {
@@ -329,6 +213,8 @@
                                 </td>
                                 <td>
                                 <button onclick="editproduct(${data[i].id}, ${i})" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modaledit">Edit</button>
+                                </td>
+                                <td>
                                 <button onclick="deleteproduct(${data[i].id}, ${i}, '${data[i].name}')" type="button" class="btn btn-danger">Delete</button>
                                 </td>
                               </tr>
@@ -344,77 +230,18 @@
         }
         
 
-        //getbuyhistory
-          function render2() {
-            $.ajax({
-                  method: 'get',
-                  url:'http://localhost:3000/api/getbuyhistorybitkub',
-                  success: (response) => {
-                      console.log('buyhistory', response)
-                      if(response.resCode == 200) {
-                        buydata = response.Result;
-                          if(buydata.length > 0) {
-                            var html2 = '';
-                            for (let i = 0; i < buydata.length; i++) {
-                              html2 += `
-                                <tr>
-                                  <td>${buydata[i].Date}</td>
-                                  <td>${buydata[i].stockname}</td> 
-                                  <td>${buydata[i].quantity}</td> 
-                                  <td>${buydata[i].invoid_no}</td> 
-                                </tr>
-                              `;
-                            }   
-                            $("#buybody").html(html2)    
-                            render();             
-                        }
-                      }
-                  }, error:(err) => {
-                      console.log('bad', err)
-                  }
-              })
-            }
-
-        //getsellhistory
-          function render3() {
-            $.ajax({
-                  method: 'get',
-                  url:'http://localhost:3000/api/getsellhistorybitkub',
-                  success: (response) => {
-                      console.log('sellhistory', response)
-                      if(response.resCode == 200) {
-                        selldata = response.Result;
-                          if(selldata.length > 0) {
-                            var html3 = '';
-                            for (let i = 0; i < selldata.length; i++) {
-                              html3 += `
-                                <tr>
-                                  <td>${selldata[i].Date}</td>
-                                  <td>${selldata[i].stockname}</td> 
-                                  <td>${selldata[i].quantity}</td> 
-                                  <td>${selldata[i].invoid_no}</td> 
-                                </tr>
-                              `;
-                            }   
-                            $("#sellbody").html(html3)    
-                            render();             
-                        }
-                      }
-                  }, error:(err) => {
-                      console.log('bad', err)
-                  }
-              })        
-        } 
-        
+      
+       
 
         //create
         function saveproduct() {
           $.ajax({
             method: 'post',
-            url:'http://localhost:3000/api/createstockbitkub',
+            url:'http://localhost:3000/api/createstockpoststation',
             data: {
               name: $("#txtaddmodal").val(),
               quantity: $("#txtaddquantity").val(),
+              img: $("#txtaddquantity").val(),
             }, success: (response) => {
                 console.log('good', response)
                 if(response.resCode == 200) {
@@ -442,7 +269,7 @@
         function updateproduct() {
           $.ajax({
             method: 'put',
-            url: 'http://localhost:3000/api/updatestockbitkub',
+            url: 'http://localhost:3000/api/updatestockpoststation',
             data:{
               id: parseInt(productid),
               name: $("#txteditmodalname").val(),
@@ -494,7 +321,7 @@
                         console.log (parseInt(data[i].quantity) + parseInt($(`#totalClicks${i}`).val()))
                         $.ajax({
                           method: 'put',
-                          url: 'http://localhost:3000/api/updatestockbitkub',
+                          url: 'http://localhost:3000/api/updatestockpoststation',
                           data:{
                             id: parseInt(data[i].id),
                             name: data[i].name,
@@ -505,12 +332,13 @@
                             if(response.resCode == 200) {
                               $.ajax({
                                 method: 'post',
-                                url: 'http://localhost:3000/api/insertstockbitkub',
+                                url: 'http://localhost:3000/api/insertstockpoststation',
                                 data: {
                                   Date: getTime(),
                                   stockname: data[i].name,
                                   quantity: parseInt($(`#totalClicks${i}`).val()),
-                                  invoid_no: $("#invoid").val()
+                                  invoid_no: $("#invoid").val(),
+                                  customer_name: $("#customer_name").val()
                                 }, 
                                   success: (response) => {
                                     temp = {
@@ -524,6 +352,7 @@
                                     $("#closeeditmodal").trigger('click')
                                     render();
                                     ClearFields();  
+                                    ClearFields2();  
                                   }       
                               })
                             }
@@ -556,7 +385,7 @@
                         console.log (parseInt(data[i].quantity) + parseInt($(`#totalClicks${i}`).val()))
                         $.ajax({
                           method: 'put',
-                          url: 'http://localhost:3000/api/updatestockbitkub',
+                          url: 'http://localhost:3000/api/updatestockpoststation',
                           data:{
                             id: parseInt(data[i].id),
                             name: data[i].name,
@@ -567,12 +396,13 @@
                             if(response.resCode == 200) {
                               $.ajax({
                                 method: 'post',
-                                url: 'http://localhost:3000/api/insertsellstockbitkub',
+                                url: 'http://localhost:3000/api/insertsellstockpoststation',
                                 data: {
                                   Date: getTime(),
                                   stockname: data[i].name,
                                   quantity: parseInt($(`#totalClicks${i}`).val()),
-                                  invoid_no: $("#invoid").val()
+                                  invoid_no: $("#invoid").val(),
+                                  customer_name: $("#customer_name").val()
                                 }, 
                                   success: (response) => {
                                     temp = {
@@ -586,6 +416,7 @@
                                     $("#closeeditmodal").trigger('click')
                                     render();
                                     ClearFields();  
+                                    ClearFields2();  
                                   }       
                               })
                             }
@@ -603,9 +434,7 @@
               })
             
           }
-                 
-          
-
+        
         //delete
         function deleteproduct(pid, index, name){
           Swal.fire({
@@ -620,7 +449,7 @@
               if (result.isDenied) {
                 $.ajax({
                   method: 'delete',
-                  url: 'http://localhost:3000/api/deletestockbitkub',
+                  url: 'http://localhost:3000/api/deletestockpoststation',
                   data: {
                     id: pid
                   }, success: (response) => {
@@ -684,6 +513,9 @@
         function ClearFields(){
           document.getElementById("invoid").value = "";
         }
+        function ClearFields2(){
+          document.getElementById("customer_name").value = ""; 
+        }
 
         function gettimetodate(Date) {
           Date = parseInt(Date)
@@ -698,6 +530,8 @@
           return `${dd}/${dm}/${dy} ${th}:${tm}:${ts}`
 
         }
+
+
 
 
     </script>
